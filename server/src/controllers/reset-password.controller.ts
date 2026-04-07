@@ -2,7 +2,10 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import crypto from 'crypto';
 
 import { pool } from '../database/pool.db.js';
-import { sendNoAccountEmail, sendResetPasswordEmail } from '../utils/mailer.utils.js';
+import {
+  sendNoAccountEmail,
+  sendResetPasswordEmail,
+} from '../utils/mailer.utils.js';
 
 export async function resetPasswordController(
   req: IncomingMessage,
@@ -13,6 +16,7 @@ export async function resetPasswordController(
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
+    const { FRONTEND_URL } = process.env;
     const result = await pool.query(
       `SELECT user_id FROM users WHERE email=$1`,
       [email],
@@ -32,7 +36,7 @@ export async function resetPasswordController(
       [userId, token, expiresAt],
     );
 
-    const resetLink = `http://localhost:8000/reset?token=${token}`;
+    const resetLink = `${FRONTEND_URL}/reset?token=${token}`;
     await sendResetPasswordEmail(email, resetLink);
 
     res.statusCode = 200;
