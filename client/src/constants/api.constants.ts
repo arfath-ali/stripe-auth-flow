@@ -2,7 +2,7 @@ export const BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 export const API__ENDPOINTS = {
-  COUNTRIES: 'src/data/countires.json',
+  COUNTRIES: 'data/countries.json',
   GOOGLE_AUTH: 'api/auth/google',
   SIGNIN: 'api/signin',
   RESET_PASSWORD: 'api/reset',
