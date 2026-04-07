@@ -1,0 +1,7 @@
+{
+  "attr-lowercase": true,
+  "attr-no-duplication": true,
+  "attr-value-not-empty": false,
+  "id-unique": true,
+  "tag-self-close": true
+}

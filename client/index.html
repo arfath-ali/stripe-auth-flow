@@ -1,0 +1,879 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="/src/styles/main.css" />
+    <script src="/dist/main.js" type="module"></script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/assets/images/stripe-favicon.svg"
+    />
+    <title>Stripe</title>
+  </head>
+  <body class="site-body" data-state="">
+    <header class="site-header">
+      <a class="site-header__brand" href="">
+        <img class="site-header__logo" src="/assets/images/stripe-logo.png" />
+      </a>
+
+      <div class="site-header__dashboard site-header__dashboard--guest">
+        <a class="btn site-header__signin-btn" href="/signup">Create account</a>
+      </div>
+
+      <div class="site-header__dashboard site-header__dashboard--active">
+        <button class="btn site-header__signout-btn" type="submit">
+          <span>sign out</span>
+          <span
+            class="spinner site-header__spinner site-header__spinner--signout hidden"
+          ></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <div class="page-transition-overlay" id="page-overlay"></div>
+      <div class="site-loading">
+        <span class="spinner site-loading__spinner"></span>
+      </div>
+
+      <section class="dashboard dashboard--guest">
+        <h1 class="dashboard__heading">The new standard for online payments</h1>
+        <p class="dashboard__description">
+          Join millions of businesses that use Stripe to accept payments, grow
+          revenue, and manage finances.
+        </p>
+        <div class="dashboard__actions">
+          <a class="btn dashboard__btn dashboard__btn--primary" href="">
+            Get started for free
+          </a>
+          <a
+            class="btn dashboard__btn dashboard__btn--secondary"
+            href="/signin"
+          >
+            Sign In
+          </a>
+        </div>
+      </section>
+
+      <section class="dashboard dashboard--active">
+        <h1 class="dashboard__heading">
+          Hello,
+          <span class="dashboard__user-name"></span>
+        </h1>
+        <p class="dashboard__description">
+          You are signed in and your account is active. Manage your profile or
+          explore what is happening across markets and investments right now.
+        </p>
+        <a
+          class="btn dashboard__btn dashboard__btn--primary dashboard__btn--profile"
+          href="/profile"
+        >
+          View Profile
+        </a>
+      </section>
+
+      <section class="dashboard dashboard--profile">
+        <div class="dashboard__profile-header">
+          <h1 class="dashboard__heading dashboard__heading--profile">
+            Profile
+          </h1>
+          <button
+            class="btn dashboard__btn dashboard__btn--secondary dashboard__btn--edit"
+          >
+            <img
+              class="dashboard__edit-icon"
+              src="/assets/images/edit-icon.png"
+            />
+            <span class="dashboard__edit-text">Edit</span>
+          </button>
+        </div>
+
+        <form class="dashboard__form dashboard__form--profile" method="post">
+          <div class="dashboard__field">
+            <label class="dashboard__label" for="profile-full-name">
+              Full name
+            </label>
+            <input
+              id="profile-full-name"
+              class="input dashboard__input dashboard__input--readonly"
+              name="full-name"
+              type="text"
+              autocomplete="off"
+              tabindex="-1"
+              value=""
+              required
+            />
+          </div>
+
+          <div class="dashboard__field">
+            <label class="dashboard__label" for="profile-email">Email</label>
+            <input
+              id="profile-email"
+              class="input dashboard__input dashboard__input--readonly"
+              name="email"
+              type="email"
+              aria-describedby="dashboard-error-email"
+              aria-invalid="false"
+              autocomplete="off"
+              tabindex="-1"
+              value=""
+              required
+            />
+            <div
+              id="dashboard-error-email"
+              class="error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p>Please enter a valid email.</p>
+            </div>
+          </div>
+
+          <div class="dashboard__form-actions hidden">
+            <button
+              class="btn dashboard__btn dashboard__btn--secondary dashboard__btn--cancel"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              class="btn dashboard__btn dashboard__btn--primary dashboard__btn--save"
+              type="submit"
+            >
+              <span class="dashboard__btn-text">Save</span>
+              <span
+                class="spinner dashboard__spinner dashboard__spinner--save hidden"
+              ></span>
+            </button>
+          </div>
+        </form>
+
+        <a
+          class="btn dashboard__btn dashboard__btn--secondary dashboard__btn--change-password"
+          href="/reset?mode=change"
+        >
+          Change Password
+        </a>
+
+        <button
+          class="btn dashboard__btn dashboard__btn--primary dashboard__btn--delete"
+        >
+          Leave Stripe
+        </button>
+
+        <div class="dashboard__modal-overlay hidden">
+          <div class="dashboard__modal hidden">
+            <h1 class="dashboard__modal-heading">Delete your account</h1>
+            <p class="dashboard__modal-description">
+              <span class="dashboard__modal-description--bold">
+                Deleting your account is a permanent action.
+              </span>
+              Please be sure you understand the implications before you proceed.
+              When you delete your account the following will happen
+              immediately:
+            </p>
+
+            <ul class="dashboard__modal-list">
+              <li class="dashboard__modal-item">
+                You will lose all access to your account and data permanently.
+              </li>
+              <li class="dashboard__modal-item">
+                You will no longer be able to sign in. If you want to use Stripe
+                in the future you will need to register again.
+              </li>
+            </ul>
+
+            <div class="dashboard__modal-actions">
+              <button
+                class="btn dashboard__btn dashboard__btn--secondary dashboard__btn--modal-cancel"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn dashboard__btn dashboard__btn--primary dashboard__btn--confirm-leave"
+              >
+                Confirm and leave
+              </button>
+            </div>
+          </div>
+          <div class="dashboard__modal-step hidden">
+            <h1 class="dashboard__modal-heading">Confirm your identity</h1>
+            <p class="dashboard__modal-description">
+              To permanently delete your account, please verify it's you.
+            </p>
+
+            <form
+              class="dashboard__form dashboard__form--profile-delete"
+              method="post"
+            >
+              <div class="dashboard__field">
+                <div class="dashboard__password-header">
+                  <label class="dashboard__label">Password</label>
+                  <a
+                    class="link auth__link dashboard__link--forgot-password"
+                    href="/reset?mode=reset"
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+                <div class="dashboard__input-password-wrapper">
+                  <input
+                    class="input dashboard__input dashboard__input--modal"
+                    id="dashboard-password"
+                    name="password"
+                    type="password"
+                    aria-describedby="dashboard-modal-error-password"
+                    aria-invalid="false"
+                    autocomplete="off"
+                    required
+                  />
+                  <button class="dashboard__password-toggle" type="button">
+                    <img src="/assets/images/hidepassword-icon.png" />
+                  </button>
+                </div>
+
+                <div
+                  id="dashboard-modal-error-password"
+                  class="error dashboard__error--delete-modal hidden"
+                  role="alert"
+                  aria-live="assertive"
+                >
+                  <img src="/assets/images/error-icon.png" class="error-icon" />
+                  <p>
+                    Incorrect password. Please try again to confirm account
+                    deletion.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                class="btn dashboard__btn dashboard__btn--primary dashboard__btn--modal-delete"
+                type="submit"
+              >
+                <span class="dashboard__btn-text">Delete Account</span>
+                <span
+                  class="spinner dashboard__spinner dashboard__spinner--delete hidden"
+                ></span>
+              </button>
+            </form>
+
+            <div
+              class="dashboard__divider dashboard__divider--modal-delete hidden"
+            >
+              <span class="dashboard__divider-text">OR</span>
+            </div>
+
+            <button
+              class="btn btn-google dashboard__btn dashboard__btn--google dashboard__btn--modal-verify-google hidden"
+              type="button"
+            >
+              <img
+                class="dashboard__google-logo"
+                src="/assets/images/google-logo.png"
+              />
+              <span class="dashboard__google-text">Verify with Google</span>
+            </button>
+            <div
+              id="dashboard-modal-error-google"
+              class="error dashboard__error--delete-modal-google hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p>
+                Wrong Google account. Please verify with the correct account.
+              </p>
+            </div>
+            <button
+              class="btn dashboard__btn dashboard__btn--secondary dashboard__btn--modal-cancel"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth auth--signin">
+        <h1 class="auth__heading">Sign in to your account</h1>
+
+        <div
+          id="auth-status-message"
+          class="auth__status-message hidden"
+          role="status"
+        >
+          <img
+            src="/assets/images/info-icon.png"
+            class="auth__status-icon"
+            alt="Info"
+          />
+          <p class="auth__status-text"></p>
+        </div>
+
+        <form class="auth__form auth__form--signin" method="post">
+          <div class="auth__field">
+            <label class="auth__label" for="signin-email">Email</label>
+            <input
+              id="signin-email"
+              class="input auth__input"
+              name="email"
+              type="email"
+              aria-describedby="signin-error"
+              aria-invalid="false"
+              autocomplete="off"
+              required
+            />
+          </div>
+
+          <div class="auth__field">
+            <div class="auth__password-header">
+              <label class="auth__label" for="signin-password">Password</label>
+              <a
+                class="link auth__link auth__link--forgot-password"
+                href="/reset?mode=reset"
+              >
+                Forgot your password?
+              </a>
+            </div>
+            <div class="auth__input-password-wrapper">
+              <input
+                id="signin-password"
+                class="input auth__input"
+                name="password"
+                type="password"
+                aria-describedby="signin-error"
+                aria-invalid="false"
+                autocomplete="off"
+                required
+              />
+              <button class="auth__password-toggle" type="button">
+                <img src="/assets/images/hidepassword-icon.png" />
+              </button>
+            </div>
+          </div>
+
+          <div class="auth__field auth__field--checkbox">
+            <input
+              id="remember"
+              class="input auth__input auth__input--checkbox"
+              name="remember"
+              type="checkbox"
+            />
+            <label class="auth__label auth__label--checkbox" for="remember">
+              Remember me on this device
+            </label>
+          </div>
+
+          <div
+            id="signin-error"
+            class="error auth__error hidden"
+            role="alert"
+            aria-live="assertive"
+          >
+            <img src="/assets/images/error-icon.png" class="error-icon" />
+            <p></p>
+          </div>
+
+          <button class="btn auth__btn auth__btn--signin" type="submit">
+            <span class="auth__btn-text">Sign In</span>
+            <span
+              class="spinner auth__spinner auth__spinner--signin hidden"
+            ></span>
+          </button>
+        </form>
+
+        <div class="auth__divider">
+          <span class="auth__divider-text">OR</span>
+        </div>
+
+        <button class="btn btn-google auth__google-btn" type="submit">
+          <img class="auth__google-logo" src="/assets/images/google-logo.png" />
+          <p class="auth__google-text">Sign in with Google</p>
+        </button>
+
+        <footer class="auth__footer">
+          <p class="auth__footer-text">
+            New to Stripe?
+            <a class="link auth__link auth__link--footer" href="/signup">
+              Create account
+            </a>
+          </p>
+        </footer>
+      </section>
+
+      <section class="auth auth--signup">
+        <h1 class="auth__heading">Create your Stripe account</h1>
+        <button class="btn btn-google auth__google-btn" type="button">
+          <img class="auth__google-logo" src="/assets/images/google-logo.png" />
+          <span class="auth__google-text">Sign in with Google</span>
+        </button>
+
+        <div class="auth__divider">
+          <span class="auth__divider-text">OR</span>
+        </div>
+
+        <form class="auth__form auth__form--signup" method="post">
+          <div class="auth__field">
+            <label class="auth__label" for="signup-email">Email</label>
+            <input
+              id="signup-email"
+              class="input auth__input"
+              name="email"
+              type="email"
+              aria-describedby="signup-error-email"
+              aria-invalid="false"
+              autocomplete="off"
+              required
+            />
+            <div
+              id="signup-error-email"
+              class="error auth__error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p></p>
+            </div>
+          </div>
+
+          <div class="auth__field">
+            <label class="auth__label" for="signup-fullname">Full name</label>
+            <input
+              id="signup-fullname"
+              class="input auth__input"
+              name="full-name"
+              type="text"
+              aria-describedby="signup-error-fullname"
+              aria-invalid="false"
+              autocomplete="off"
+              required
+            />
+            <div
+              id="signup-error-fullname"
+              class="error auth__error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p>
+                Name can't be longer than 128 characters or contain any of the
+                following: !@#$%^&*+_=<>
+              </p>
+            </div>
+          </div>
+
+          <div class="auth__field">
+            <div class="auth__password-header">
+              <label class="auth__label" for="signup-password">Password</label>
+              <p class="auth__label auth__label--password-strength hidden"></p>
+            </div>
+            <div class="auth__input-password-wrapper">
+              <input
+                id="signup-password"
+                class="input auth__input"
+                name="password"
+                type="password"
+                aria-describedby="signup-error-password"
+                aria-invalid="false"
+                autocomplete="off"
+                required
+              />
+              <button class="auth__password-toggle" type="button">
+                <img src="/assets/images/hidepassword-icon.png" />
+              </button>
+            </div>
+            <div
+              id="signup-error-password"
+              class="error auth__error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p>
+                Your password needs to be at least 10 characters. Use multiple
+                words and phrases to make it more secure.
+              </p>
+            </div>
+          </div>
+
+          <div class="auth__field auth__field--dropdown" data-dropdown="signup">
+            <label class="auth__label" for="signup-country">Country</label>
+            <input
+              id="signup-country"
+              class="input auth__input auth__input--dropdown"
+              name="country"
+              type="hidden"
+              value="United States"
+            />
+            <button
+              id="country"
+              class="btn auth__btn auth__btn--dropdown"
+              type="button"
+            >
+              <div class="auth__dropdown-value">
+                <img
+                  class="auth__dropdown-flag"
+                  src="https://flagcdn.com/us.svg"
+                />
+                <span class="auth__dropdown-country">United States</span>
+              </div>
+
+              <img
+                class="auth__dropdown-arrow"
+                src="/assets/images/drop-down.png"
+              />
+            </button>
+
+            <div class="auth__dropdown-menu hidden">
+              <input
+                id="country-search"
+                class="input auth__input auth__input--search"
+                name="countrySearch"
+                type="text"
+                placeholder="Search..."
+                autocomplete="off"
+              />
+              <ul class="auth__dropdown-list" tabindex="-1"></ul>
+            </div>
+          </div>
+
+          <button class="btn auth__btn auth__btn--signup" type="submit">
+            <span class="auth__btn-text">Create Account</span>
+            <span
+              class="spinner auth__spinner auth__spinner--signup hidden"
+            ></span>
+          </button>
+        </form>
+
+        <footer class="auth__footer">
+          <p class="auth__footer-text">
+            Already have an account?
+            <a class="link auth__link auth__link--footer" href="/signin">
+              Sign in
+            </a>
+          </p>
+        </footer>
+      </section>
+
+      <section class="auth auth--verify-otp">
+        <h1 class="auth__heading">Verify your email</h1>
+        <p class="auth__description">
+          <span class="auth__description-verify-otp">
+            We sent a 6-digit code to
+          </span>
+          <span class="auth__email-otp-target"></span>
+        </p>
+
+        <form class="auth__form auth__form--verify-otp" method="post">
+          <div class="auth__field">
+            <label class="auth__label" for="otp-input">Enter OTP</label>
+            <input
+              id="otp-input"
+              class="input auth__input auth__input--otp"
+              name="otp"
+              type="text"
+              inputmode="numeric"
+              maxlength="6"
+              autocomplete="one-time-code"
+              required
+            />
+            <div
+              id="otp-error"
+              class="error auth__error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p id="otp-error-text"></p>
+            </div>
+          </div>
+
+          <button class="btn auth__btn auth__btn--verify-otp" type="submit">
+            <span class="auth__btn-text">Verify Email</span>
+            <span
+              class="spinner auth__spinner auth__spinner--verify-otp hidden"
+            ></span>
+          </button>
+        </form>
+
+        <div class="auth__link-wrapper">
+          <p class="auth__description auth__description--otp-resend">
+            Didn't get a code?
+            <a class="link auth__link auth__link--otp-resend" href="/verify">
+              Resend
+            </a>
+            <span
+              class="spinner auth__spinner auth__spinner--otp-resend hidden"
+            ></span>
+            <span class="auth__resend-timer hidden"></span>
+          </p>
+        </div>
+      </section>
+
+      <section class="auth auth--reset-password">
+        <div class="auth__reset-password-page">
+          <h1 class="auth__heading auth__heading--reset-password"></h1>
+
+          <div
+            class="error auth__error auth__error--reset-timeout hidden"
+            role="alert"
+            aria-live="assertive"
+          >
+            <img src="/assets/images/error-icon.png" class="error-icon" />
+            <p>Your reset link has expired. Please request a new one.</p>
+          </div>
+
+          <p class="auth__description auth__description--reset-password"></p>
+
+          <form class="auth__form auth__form--reset-password" method="post">
+            <div class="auth__field">
+              <label class="auth__label" for="reset-email">Email</label>
+              <input
+                id="reset-email"
+                class="input auth__input"
+                name="email"
+                type="email"
+                autocomplete="off"
+                required
+              />
+            </div>
+            <div
+              id="reset-error"
+              class="error auth__error hidden"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p id="reset-error-text"></p>
+            </div>
+            <button class="btn auth__btn auth__btn--reset" type="submit">
+              <span class="auth__btn-text">Continue</span>
+              <span
+                class="spinner auth__spinner auth__spinner--reset hidden"
+              ></span>
+            </button>
+          </form>
+
+          <div class="auth__link-wrapper auth__link-wrapper--reset-password">
+            <a class="link auth__link auth__link--signin" href="/signin">
+              Return to sign in
+            </a>
+          </div>
+
+          <footer class="auth__footer auth__footer--reset-password">
+            <p class="auth__footer-text">
+              New to Stripe?
+              <a class="link auth__link auth__link--footer" href="/signup">
+                Create account
+              </a>
+            </p>
+          </footer>
+        </div>
+
+        <div class="auth__mail-sent hidden">
+          <h1 class="auth__heading">Check your email</h1>
+          <div class="auth__description-wrapper-mode-reset">
+            <p class="auth__description">
+              If
+              <span class="auth__email--reset-target"></span>
+              matches an email address we have on file, we've sent you an email
+              with a link to reset your password.
+            </p>
+            <p class="auth__description auth__description--email-sent">
+              If you haven't received the email in 5 minutes, check your spam
+              folder,
+              <a
+                class="link auth__link auth__link--resend"
+                href="/reset?mode=reset"
+              >
+                resend
+              </a>
+
+              , or
+              <a
+                class="link auth__link auth__link--alt-email"
+                href="/reset?mode=reset"
+              >
+                try a different email address
+              </a>
+              .
+            </p>
+            <p class="auth__description auth__description--resend hidden">
+              Still no email? It may have gone to spam, or this might not be the
+              right address for your account.
+              <a
+                class="link auth__link auth__link--alt-email"
+                href="/reset?mode=reset"
+              >
+                Try a different email address
+              </a>
+              .
+            </p>
+          </div>
+          <div class="auth__description-wrapper-mode-change hidden">
+            <p class="auth__description auth__description--email-sent">
+              We’ve sent a link to your email to update your password. Didn’t
+              receive it?
+              <a
+                class="link auth__link auth__link--resend"
+                href="/reset?mode=change"
+              >
+                resend
+              </a>
+              .
+            </p>
+            <p class="auth__description auth__description--resend hidden">
+              Still no email? Check your spam folder or try to
+              <a
+                class="link auth__link auth__link--resend"
+                href="/reset?mode=change"
+              >
+                resend
+              </a>
+              the link.
+            </p>
+          </div>
+
+          <a
+            class="btn auth__btn auth__btn--gmail"
+            rel="noopener noreferrer"
+            href="https://mail.google.com/"
+            target="_blank"
+          >
+            <span class="auth__btn-gmail-text">Open Gmail</span>
+            <span
+              class="spinner auth__spinner auth__spinner--resend hidden"
+            ></span>
+          </a>
+
+          <div class="auth__link-wrapper auth__link-wrapper--mail-sent">
+            <a class="link auth__link auth__link--signin" href="/signin">
+              Return to sign in
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth auth--update-password">
+        <h1 class="auth__heading">Reset your password</h1>
+        <form class="auth__form auth__form--update-password" method="post">
+          <div class="auth__field">
+            <div class="auth__password-header">
+              <label class="auth__label" for="new-password">New password</label>
+              <p
+                class="error auth__error auth__label--new-password-strength"
+              ></p>
+            </div>
+            <div class="auth__input-password-wrapper">
+              <input
+                class="input auth__input"
+                id="new-password"
+                name="new-password"
+                type="password"
+                aria-describedby="new-password-error"
+                aria-invalid="false"
+                autocomplete="off"
+                required
+              />
+              <button class="auth__password-toggle" type="button">
+                <img src="/assets/images/hidepassword-icon.png" />
+              </button>
+            </div>
+            <div
+              id="new-password-error"
+              class="error auth__error"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p>
+                Your password needs to be at least 10 characters. Use multiple
+                words and phrases to make it more secure.
+              </p>
+            </div>
+          </div>
+          <div class="auth__field">
+            <label class="auth__label" for="confirm-password">
+              Confirm your password
+            </label>
+            <div class="auth__input-password-wrapper">
+              <input
+                class="input auth__input"
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                aria-describedby="confirm-password-error"
+                aria-invalid="false"
+                autocomplete="off"
+                required
+              />
+              <button class="auth__password-toggle" type="button">
+                <img src="/assets/images/hidepassword-icon.png" />
+              </button>
+            </div>
+            <div
+              id="confirm-password-error"
+              class="error auth__error"
+              role="alert"
+              aria-live="assertive"
+            >
+              <img src="/assets/images/error-icon.png" class="error-icon" />
+              <p>This password doesn’t match. Try again.</p>
+            </div>
+          </div>
+          <button
+            class="btn auth__btn auth__btn--update-password"
+            type="submit"
+          >
+            <span class="auth__btn-text">Continue</span>
+            <span
+              class="spinner auth__spinner auth__spinner--update hidden"
+            ></span>
+          </button>
+        </form>
+      </section>
+
+      <section class="auth auth--password-updated">
+        <h1 class="auth__heading">You've successfully changed your password</h1>
+        <p class="auth__description">
+          Password updated for the Stripe account associated with
+          <span class="auth__email--account-confirmed"></span>
+          .
+        </p>
+        <a class="btn auth__btn auth__btn--goto-signin" href="/signin">
+          Go to Signin
+        </a>
+      </section>
+
+      <section class="error-page error-page--active">
+        <div class="error-page__container">
+          <p class="error-page__code">
+            4
+            <span class="error-page__digit">0</span>
+            4
+          </p>
+          <div class="error-page__divider"></div>
+        </div>
+        <h1 class="error-page__heading">Page not found</h1>
+        <p class="error-page__description">
+          The page you're looking for doesn't exist or has been moved. Let's get
+          you back on track.
+        </p>
+        <a class="btn error-page__cta" href="/dashboard">Go to dashboard</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <nav class="site-footer__nav">
+        <a class="link site-footer__link" href="">
+          <span class="site-footer__copyright">&copy;</span>
+          Stripe
+        </a>
+        <a class="link site-footer__link" href="">Privacy & terms</a>
+      </nav>
+    </footer>
+  </body>
+</html>
