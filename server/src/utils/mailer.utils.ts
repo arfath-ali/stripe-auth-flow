@@ -3,14 +3,15 @@ import 'dotenv/config';
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
   tls: {
     family: 4,
+    ciphers: 'SSLv3',
     rejectUnauthorized: false,
   },
 } as nodemailer.TransportOptions);
@@ -42,7 +43,7 @@ export async function sendVerificationEmail(email: string, otp: string) {
         </div>
         
         <p>
-          This code will expire in 10 minutes. Do not share this code with anyone.
+          This code will expire in 5 minutes. Do not share this code with anyone.
         </p>
         
         <p>
@@ -115,7 +116,7 @@ export async function sendNoAccountEmail(email: string) {
         <p><strong>However, there is no Stripe account associated with this email address.</strong></p>
         
         <div style="text-align: center; margin: 16px auto;">
-         <a href="http://localhost:8000/signup" style="display: inline-block; background-color: #6a4ff7; color: white; padding: 12px 32px; text-decoration: none; border-radius: 4px;">
+         <a href="${process.env.FRONTEND_URL}/signup" style="display: inline-block; background-color: #6a4ff7; color: white; padding: 12px 32px; text-decoration: none; border-radius: 4px;">
          Create an account
          </a>
         </div>
