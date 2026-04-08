@@ -18,7 +18,7 @@ export function initCountrySelect(
 
       if (!dropdownItem) return;
 
-      const countryCode = dropdownItem.dataset.countryCode;
+      const countryCode = dropdownItem.dataset.countryCode?.trim();
 
       if (!countryCode) return;
 
@@ -27,7 +27,7 @@ export function initCountrySelect(
       dropdownElements.dropdownCountry.textContent = dropdownItem.textContent;
 
       if (dropdownElements.dropdownInput)
-        dropdownElements.dropdownInput.value = dropdownItem.textContent;
+        dropdownElements.dropdownInput.value = countryCode;
 
       highlightCountrySelected(dropdownElements);
     },
