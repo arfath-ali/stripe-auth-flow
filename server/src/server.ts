@@ -32,21 +32,20 @@ const indexPath = path.join(__clientdirname, 'index.html');
 
 const server = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
+    res.setHeader(
+      'Access-Control-Allow-Origin',
+      'https://stripe-auth-flow.vercel.app',
+    );
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+    );
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization',
+    );
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     try {
-      res.setHeader(
-        'Access-Control-Allow-Origin',
-        'https://stripe-auth-flow.vercel.app',
-      );
-      res.setHeader(
-        'Access-Control-Allow-Methods',
-        'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-      );
-      res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization',
-      );
-      res.setHeader('Access-Control-Allow-Credentials', 'true');
-
       if (req.method === 'OPTIONS') {
         res.statusCode = 204;
         res.end();
@@ -91,7 +90,8 @@ const server = http.createServer(
         } else if (req.method === 'GET') {
           if (req.url?.startsWith('/api/auth/google/callback')) {
             googleCallbackController(req, res);
-          } else if (req.url?.startsWith('/api/auth/google')) {
+          }
+          if (req.url?.startsWith('/api/auth/google')) {
             googleAuthController(req, res);
           }
           if (req.url === '/api/location') {
