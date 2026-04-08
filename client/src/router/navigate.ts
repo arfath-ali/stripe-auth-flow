@@ -104,17 +104,13 @@ export async function navigate(): Promise<void> {
       if (route === 'home') {
         handleHome(window.appUser);
         handleSignOut();
-      } else if (route === 'profile') {
-        handleProfile(window.appUser);
-        initProfileEdit();
-        initDeleteAccount(window.appUser);
-        handleDeleteAccount();
       }
     }
 
     const response = await verifyAuthAPI();
     if (!response?.ok) {
       window.location.replace('/signin');
+      delete (window as any).appUser;
       sessionStorage.clear();
       return;
     } else {

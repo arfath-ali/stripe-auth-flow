@@ -75,14 +75,18 @@ export function initDeleteAccount(user: userData): void {
     );
   });
 
-  window.addEventListener('popstate', () => {
-    if (history.state?.view === 'modal-flow') {
-      setModalView('modal');
-    } else {
-      resetDeleteModal();
-      currentModalView = null;
-    }
-  });
+  window.addEventListener(
+    'popstate',
+    () => {
+      if (history.state?.view === 'modal-flow') {
+        setModalView('modal');
+      } else {
+        resetDeleteModal();
+        currentModalView = null;
+      }
+    },
+    { signal: deleteAccountController.signal },
+  );
 }
 
 export function resetDeleteModal() {
