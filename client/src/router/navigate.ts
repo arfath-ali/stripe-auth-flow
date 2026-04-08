@@ -62,7 +62,7 @@ export async function navigate(): Promise<void> {
     !(route === 'profile' && params.get('error') === 'wrong_account') &&
     !(
       route === 'signin' &&
-      ['signout', 'expired', 'deleted'].includes(params.get('message') ?? '')
+      ['signout', 'deleted'].includes(params.get('message') ?? '')
     )
   ) {
     setAppState('error');
@@ -104,12 +104,17 @@ export async function navigate(): Promise<void> {
       if (route === 'home') {
         handleHome(window.appUser);
         handleSignOut();
+      } else if (route === 'profile') {
+        handleProfile(window.appUser);
+        initProfileEdit();
+        initDeleteAccount(window.appUser);
+        handleDeleteAccount();
       }
     }
 
     const response = await verifyAuthAPI();
     if (!response?.ok) {
-      window.location.replace('/signin?message=expired');
+      window.location.replace('/signin');
       sessionStorage.clear();
       return;
     } else {

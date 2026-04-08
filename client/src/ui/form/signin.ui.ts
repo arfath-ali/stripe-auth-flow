@@ -29,10 +29,7 @@ export async function handleSignin() {
 
   if (message) {
     let text = '';
-
-    if (message === 'expired') {
-      text = 'Your session has expired. Please sign in again.';
-    } else if (message === 'signout') {
+    if (message === 'signout') {
       text = 'You have been successfully signed out.';
     } else if (message === 'deleted') {
       text = 'Your account has been permanently deleted.';

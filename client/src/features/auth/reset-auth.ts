@@ -16,6 +16,12 @@ export function resetAuthState(): void {
     '.auth__password-toggle img',
   );
 
+  const dropdownInput = getElement<HTMLInputElement>('.auth__input--dropdown');
+  const dropdownFlag = getElement<HTMLImageElement>('.auth__dropdown-flag');
+  const dropdownCountry = getElement<HTMLSpanElement>(
+    '.auth__dropdown-country',
+  );
+
   const authBtns = getElements<HTMLButtonElement>('.auth__btn');
 
   const authErrors = getElements<HTMLElement>('.auth__error');
@@ -57,6 +63,12 @@ export function resetAuthState(): void {
   passwordStrengthLabels.forEach((label) => {
     label.textContent = '';
   });
+
+  dropdownInput.value = 'us';
+
+  dropdownFlag.src = 'https://flagcdn.com/us.svg';
+
+  dropdownCountry.textContent = 'United States';
 
   authErrorTexts.forEach((authErrorText) => {
     if (
