@@ -150,6 +150,13 @@ export async function navigate(): Promise<void> {
         setAppState('error');
         return;
       } else if (isValidMode) {
+        if (mode === 'change') {
+          const response = await verifyAuthAPI();
+          if (!response?.ok) {
+            window.location.replace('/signin');
+            return;
+          }
+        }
         handleResetPassword();
       } else if (isValidStatus) {
         const storedEmail = sessionStorage.getItem('email');
