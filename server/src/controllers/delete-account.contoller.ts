@@ -52,7 +52,7 @@ export async function deleteAccountController(
 
     res.setHeader(
       'Set-Cookie',
-      'token=; Max-Age=0; HttpOnly; Path=/; SameSite=None; Secure',
+      'token=; Max-Age=0; HttpOnly; Path=/; SameSite=Lax',
     );
     res.statusCode = 200;
     res.end();

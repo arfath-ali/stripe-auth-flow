@@ -27,12 +27,12 @@ export function generateAuthCookie(
       },
       jwtSecretKey,
       {
-        expiresIn: '1hr',
+        expiresIn: '1h',
       },
     );
 
     res.setHeader('Set-Cookie', [
-      `token=${jsonwebtoken}; HttpOnly; Path=/; Max-Age=3600; SameSite=None; Secure`,
+      `token=${jsonwebtoken}; HttpOnly; Path=/; Max-Age=3600; SameSite=Lax`,
     ]);
   } catch (err) {
     console.error('generateAuthCookie error:', err);
