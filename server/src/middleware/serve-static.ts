@@ -40,11 +40,10 @@ export function serveStaticFile(
         return;
       }
 
-      res.writeHead(200, {
-        'Content-Type': mimeTypes[extension],
-        'Cache-Control': 'no-cache',
-        ETag: etag,
-      });
+      res.statusCode = 200;
+      res.setHeader('Content-Type', mimeType);
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('ETag', etag);
       res.end(file);
     });
   } catch (err) {
@@ -62,7 +61,8 @@ export function serveHTML(
   try {
     fs.readFile(indexPath, (err, html) => {
       if (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'text/plain');
         res.end('Internal Server Error');
         return;
       }
@@ -75,11 +75,10 @@ export function serveHTML(
         return;
       }
 
-      res.writeHead(200, {
-        'Content-Type': 'text/html',
-        'Cache-Control': 'no-cache',
-        ETag: etag,
-      });
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('ETag', etag);
       res.end(html);
     });
   } catch (err) {

@@ -19,7 +19,8 @@ export async function signinController(
     );
 
     if (existing.rows.length === 0) {
-      res.writeHead(409, { 'Content-Type': 'application/json' });
+      res.statusCode = 409;
+      res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ error: 'Incorrect email or password' }));
       return;
     }
@@ -30,7 +31,8 @@ export async function signinController(
     );
 
     if (!isPasswordValid) {
-      res.writeHead(409, { 'Content-Type': 'application/json' });
+      res.statusCode = 409;
+      res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ error: 'Incorrect email or password' }));
       return;
     }
@@ -54,7 +56,8 @@ export async function signinController(
         console.error('Signin Mailer Error:', mailErr);
       }
 
-      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.statusCode = 403;
+      res.setHeader('Content-Type', 'application/json');
       res.end(
         JSON.stringify({
           action: 'VERIFY_REQUIRED',

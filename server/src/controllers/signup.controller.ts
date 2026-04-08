@@ -20,7 +20,8 @@ export async function signupController(
       const user = existing.rows[0];
 
       if (user.google_id) {
-        res.writeHead(409, { 'Content-Type': 'application/json' });
+        res.statusCode = 409;
+        res.setHeader('Content-Type', 'application/json');
         res.end(
           JSON.stringify({
             error:
@@ -29,7 +30,8 @@ export async function signupController(
         );
         return;
       } else {
-        res.writeHead(409, { 'Content-Type': 'application/json' });
+        res.statusCode = 409;
+        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ error: 'Email already exists' }));
         return;
       }

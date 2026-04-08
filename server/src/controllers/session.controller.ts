@@ -30,7 +30,8 @@ export async function getSessionController(
       return;
     }
 
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(user));
   } catch (err) {
     console.error('sessionController error:', err);

@@ -37,7 +37,8 @@ export async function profileController(
         existing.rows.length > 0 &&
         existing.rows[0].user_id !== user.user_id
       ) {
-        res.writeHead(409, { 'Content-Type': 'application/json' });
+        res.statusCode = 409;
+        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify({ error: 'Email already exists' }));
         return;
       } else {

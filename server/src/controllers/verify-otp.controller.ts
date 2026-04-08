@@ -18,7 +18,8 @@ export async function otpVerificationController(
     );
 
     if (existing.rows.length === 0) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.statusCode = 400;
+      res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ error: 'Invalid OTP' }));
       return;
     }
@@ -27,7 +28,8 @@ export async function otpVerificationController(
     const now = new Date();
 
     if (expiresAt < now) {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.statusCode = 400;
+      res.setHeader('Content-Type', 'application/json');
       res.end(
         JSON.stringify({
           error: 'OTP expired. Click resend to get a new otp.',

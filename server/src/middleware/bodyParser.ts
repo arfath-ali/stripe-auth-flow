@@ -16,7 +16,8 @@ export function parseRequestBody(
       req.body = JSON.parse(body);
       next();
     } catch {
-      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.statusCode = 400;
+      res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ error: 'Invalid JSON format' }));
     }
   });

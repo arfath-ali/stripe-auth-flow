@@ -41,7 +41,7 @@ export async function deleteAccountController(
     );
 
     if (!isPasswordValid) {
-      res.writeHead(401);
+      res.statusCode = 401;
       res.end();
       return;
     }

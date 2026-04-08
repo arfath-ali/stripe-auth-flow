@@ -9,7 +9,8 @@ export function googleAuthController(
     const { GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI } = process.env;
 
     if (!GOOGLE_CLIENT_ID || !GOOGLE_REDIRECT_URI) {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify({ error: 'Google OAuth not configured' }));
       return;
     }
@@ -27,10 +28,11 @@ export function googleAuthController(
       state: mode,
     });
 
-    res.writeHead(302, {
-      Location: `https://accounts.google.com/o/oauth2/v2/auth?${params}`,
-    });
-    res.end();
+    const authURL = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
+
+    res.statusCode = 302;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(authURL));
   } catch (err) {
     console.error('googleAuthController error:', err);
     res.statusCode = 500;

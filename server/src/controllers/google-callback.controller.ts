@@ -22,18 +22,21 @@ export async function googleCallbackController(
 
   const sessionUser = mode === 'delete' ? getUserFromToken(req) : null;
   if (mode === 'delete' && !sessionUser) {
-    res.writeHead(302, { Location: `${FRONTEND_URL}/signin` });
+    res.statusCode = 302;
+    res.setHeader('Location', `${FRONTEND_URL}/signin`);
     res.end();
     return;
   }
 
   if (!code) {
     if (mode === 'delete') {
-      res.writeHead(302, { Location: `${FRONTEND_URL}/profile` });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/profile`);
       res.end();
       return;
     } else {
-      res.writeHead(302, { Location: `${FRONTEND_URL}/signin` });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/signin`);
       res.end();
       return;
     }
@@ -64,9 +67,8 @@ export async function googleCallbackController(
     const profile = (await profileRes.json()) as googleProfileType;
 
     if (!profile.email_verified) {
-      res.writeHead(302, {
-        Location: `${FRONTEND_URL}/signin`,
-      });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/signin`);
       res.end();
       return;
     }
@@ -81,9 +83,11 @@ export async function googleCallbackController(
         existing.rows.length === 0 ||
         existing.rows[0].email !== sessionUser!.email
       ) {
-        res.writeHead(302, {
-          Location: `${FRONTEND_URL}/profile?error=wrong_account`,
-        });
+        res.statusCode = 302;
+        res.setHeader(
+          'Location',
+          `${FRONTEND_URL}/profile?error=wrong_account`,
+        );
         res.end();
         return;
       }
@@ -92,9 +96,8 @@ export async function googleCallbackController(
         existing.rows[0].user_id,
       ]);
       res.setHeader('Set-Cookie', 'token=; Max-Age=0; HttpOnly; Path=/');
-      res.writeHead(302, {
-        Location: `${FRONTEND_URL}/signin?message=deleted`,
-      });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/signin?message=deleted`);
       res.end();
       return;
     }
@@ -108,9 +111,8 @@ export async function googleCallbackController(
         res,
       );
 
-      res.writeHead(302, {
-        Location: `${FRONTEND_URL}/home`,
-      });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/home`);
       res.end();
       return;
     }
@@ -128,18 +130,19 @@ export async function googleCallbackController(
       newUser.rows[0].google_id,
       res,
     );
-    res.writeHead(302, {
-      Location: `${FRONTEND_URL}/home`,
-    });
+    res.statusCode = 302;
+    res.setHeader('Location', `${FRONTEND_URL}/home`);
     res.end();
   } catch (err) {
     console.error('[Google Callback]', err);
     if (mode === 'delete') {
-      res.writeHead(302, { Location: `${FRONTEND_URL}/profile` });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/profile`);
       res.end();
       return;
     } else {
-      res.writeHead(302, { Location: `${FRONTEND_URL}/signin` });
+      res.statusCode = 302;
+      res.setHeader('Location', `${FRONTEND_URL}/signin`);
       res.end();
     }
   }

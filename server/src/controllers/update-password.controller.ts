@@ -16,7 +16,7 @@ export async function updatePasswordController(
 
     if (result.rows.length === 0) {
       await pool.query(`DELETE FROM reset_tokens WHERE token=$1`, [token]);
-      res.writeHead(400);
+      res.statusCode = 400;
       res.end();
       return;
     }
@@ -35,12 +35,14 @@ export async function updatePasswordController(
     ]);
 
     await pool.query(`DELETE FROM reset_tokens WHERE token=$1`, [token]);
-    
+
+    const isProd = process.env.NODE_ENV === 'production';
     res.setHeader(
       'Set-Cookie',
-      'token=; Max-Age=0; HttpOnly; Path=/; SameSite=Lax',
+      `token=; Max-Age=0; HttpOnly; Path=/; ${isProd ? 'SameSite=None; Secure' : 'SameSite=Lax'}`,
     );
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ email }));
   } catch (err) {
     console.error('updatePasswordController error:', err);

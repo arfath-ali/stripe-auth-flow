@@ -8,11 +8,13 @@ export async function locationController(
 ) {
   try {
     const country = await getCountryFromIP(req);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ country }));
   } catch (err) {
     console.error('locationController error:', err);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ country: null }));
   }
 }
