@@ -3,18 +3,13 @@ import 'dotenv/config';
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-  tls: {
-    family: 4,
-    ciphers: 'SSLv3',
-    rejectUnauthorized: false,
-  },
-} as nodemailer.TransportOptions);
+});
 
 export async function sendVerificationEmail(email: string, otp: string) {
   try {
