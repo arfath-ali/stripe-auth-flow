@@ -81,8 +81,13 @@ export function initDeleteAccount(user: userData): void {
       if (history.state?.view === 'modal-flow') {
         setModalView('modal');
       } else {
-        resetDeleteModal();
-        currentModalView = null;
+        if (window.appUser) {
+          window.location.replace('/signin');
+          return;
+        } else {
+          resetDeleteModal();
+          currentModalView = null;
+        }
       }
     },
     { signal: deleteAccountController.signal },

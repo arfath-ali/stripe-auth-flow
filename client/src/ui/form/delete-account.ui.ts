@@ -74,9 +74,6 @@ export function handleDeleteAccount() {
     } else {
       delete (window as any).appUser;
       sessionStorage.clear();
-      if (history.state?.view === 'modal-flow') {
-        history.back();
-      }
       overlay.classList.remove('active');
       setTimeout(() => {
         window.location.replace('/signin?message=deleted');
