@@ -36,10 +36,7 @@ export async function updatePasswordController(
 
     await pool.query(`DELETE FROM reset_tokens WHERE token=$1`, [token]);
 
-    res.setHeader(
-      'Set-Cookie',
-      'token=; HttpOnly; Path=/; Max-Age=0; SameSite=Strict',
-    );
+    res.setHeader('Set-Cookie', 'token=; Max-Age=0; HttpOnly; Path=/');
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ email }));
   } catch (err) {
