@@ -4,7 +4,7 @@ export function highlightCountrySelected(
   dropdownElements: ReturnType<typeof getAuthDropdownElements>,
 ): void {
   const countryCode = dropdownElements.dropdownInput?.value;
-  const selectIcon = '../../assets/images/select.png';
+  const selectIcon = '/assets/images/select.png';
 
   const countryItems = dropdownElements.dropdownList?.querySelectorAll('li');
   countryItems?.forEach((item) => {
