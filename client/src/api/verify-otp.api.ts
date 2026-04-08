@@ -7,6 +7,7 @@ export async function otpVerificationAPI(
   try {
     const response = await fetch(`${BASE_URL}/${API__ENDPOINTS.VERIFY_OTP}`, {
       method: 'POST',
+      credentials: 'include',
       body: JSON.stringify({ email, otp }),
     });
     return response;

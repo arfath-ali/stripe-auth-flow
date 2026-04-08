@@ -32,7 +32,7 @@ export function generateAuthCookie(
     );
 
     res.setHeader('Set-Cookie', [
-      `token=${jsonwebtoken}; HttpOnly; Path=/; Max-Age=3600; SameSite=Lax`,
+      `token=${jsonwebtoken}; HttpOnly; Path=/; Max-Age=3600; SameSite=None; Secure`,
     ]);
   } catch (err) {
     console.error('generateAuthCookie error:', err);

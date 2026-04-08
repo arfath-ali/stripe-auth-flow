@@ -10,6 +10,7 @@ export async function signupAPI(
     const response = await fetch(`${BASE_URL}/${API__ENDPOINTS.SIGNUP}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ email, full_name, password, country }),
     });
 

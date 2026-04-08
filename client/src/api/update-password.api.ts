@@ -10,6 +10,7 @@ export async function updatePasswordAPI(
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ token, password }),
       },
     );

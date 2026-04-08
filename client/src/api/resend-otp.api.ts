@@ -5,6 +5,7 @@ export async function resendOTPAPI(email: string): Promise<any> {
     const response = await fetch(`${BASE_URL}/${API__ENDPOINTS.RESEND_OTP}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ email }),
     });
 

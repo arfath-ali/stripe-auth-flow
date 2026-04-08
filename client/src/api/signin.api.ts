@@ -5,6 +5,7 @@ export async function signinAPI(email: string, password: string): Promise<any> {
     const response = await fetch(`${BASE_URL}/${API__ENDPOINTS.SIGNIN}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
