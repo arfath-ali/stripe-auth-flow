@@ -49,7 +49,11 @@ export async function signupController(
 
     const userEmail = result.rows[0].email;
 
-    await sendVerificationEmail(userEmail, otp);
+    try {
+      await sendVerificationEmail(userEmail, otp);
+    } catch (mailErr) {
+      console.error('Signup Mailer Error:', mailErr);
+    }
 
     res.statusCode = 200;
     res.end();

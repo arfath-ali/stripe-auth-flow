@@ -48,7 +48,11 @@ export async function signinController(
         [hashedToken, expiresAt, email],
       );
 
-      await sendVerificationEmail(email, otp);
+      try {
+        await sendVerificationEmail(email, otp);
+      } catch (mailErr) {
+        console.error('Signin Mailer Error:', mailErr);
+      }
 
       res.writeHead(403, { 'Content-Type': 'application/json' });
       res.end(
