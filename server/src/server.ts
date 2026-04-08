@@ -33,10 +33,12 @@ const indexPath = path.join(__clientdirname, 'index.html');
 const server = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
     try {
-      res.setHeader(
-        'Access-Control-Allow-Origin',
-        `${process.env.FRONTEND_URL}`,
-      );
+      const origin = req.headers.origin;
+
+      if (origin) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+      }
+
       res.setHeader(
         'Access-Control-Allow-Methods',
         'GET, POST, PATCH, PUT, DELETE, OPTIONS',
