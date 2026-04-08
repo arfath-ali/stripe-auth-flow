@@ -95,7 +95,10 @@ export async function googleCallbackController(
       await pool.query(`DELETE FROM users WHERE user_id=$1`, [
         existing.rows[0].user_id,
       ]);
-      res.setHeader('Set-Cookie', 'token=; Max-Age=0; HttpOnly; Path=/');
+      res.setHeader(
+        'Set-Cookie',
+        'token=; Max-Age=0; HttpOnly; Path=/; SameSite=None; Secure',
+      );
       res.statusCode = 302;
       res.setHeader('Location', `${FRONTEND_URL}/signin?message=deleted`);
       res.end();
