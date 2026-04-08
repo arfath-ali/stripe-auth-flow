@@ -16,7 +16,7 @@ export async function googleCallbackController(
   req: IncomingMessage,
   res: ServerResponse,
 ) {
-  const url = new URL(req.url ?? '', 'http://localhost');
+  const url = new URL(req.url ?? '', `${FRONTEND_URL}`);
   const code = url.searchParams.get('code') ?? undefined;
   const mode = url.searchParams.get('state') ?? 'signin';
 
