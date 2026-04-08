@@ -73,6 +73,7 @@ export function handleDeleteAccount() {
       overlay.classList.remove('active');
     } else {
       delete (window as any).appUser;
+      sessionStorage.clear();
       setTimeout(() => {
         window.location.replace('/signin?message=deleted');
         setLoadingState(false);

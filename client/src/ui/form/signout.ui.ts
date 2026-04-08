@@ -38,7 +38,7 @@ export function handleSignOut() {
         return;
       }
       delete (window as any).appUser;
-
+      sessionStorage.clear();
       setTimeout(() => {
         window.location.replace('/signin?message=signout');
         setLoadingState(false);

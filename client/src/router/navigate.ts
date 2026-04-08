@@ -87,6 +87,7 @@ export async function navigate(): Promise<void> {
     const response = await verifyAuthAPI();
     if (!response?.ok) {
       window.location.replace('/dashboard');
+      sessionStorage.clear();
       return;
     } else {
       const user = await response.json();
@@ -109,6 +110,7 @@ export async function navigate(): Promise<void> {
     const response = await verifyAuthAPI();
     if (!response?.ok) {
       window.location.replace('/signin?message=expired');
+      sessionStorage.clear();
       return;
     } else {
       const user = await response.json();
