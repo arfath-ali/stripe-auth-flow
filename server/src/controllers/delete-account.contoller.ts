@@ -19,9 +19,15 @@ export async function deleteAccountController(
     const { password } = req.body;
 
     const existing = await pool.query(
-      'SELECT password FROM users WHERE user_id=$1',
+      'SELECT user_id, password FROM users WHERE user_id=$1',
       [user.user_id],
     );
+
+    if (!existing.rows.length) {
+      res.statusCode = 404;
+      res.end();
+      return;
+    }
 
     if (existing?.rows[0].password === null) {
       res.statusCode = 401;
