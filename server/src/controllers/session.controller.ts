@@ -21,7 +21,10 @@ export async function getSessionController(
     );
 
     if (existing.rows.length === 0) {
-      res.setHeader('Set-Cookie', 'token=; Max-Age=0; HttpOnly; Path=/');
+      res.setHeader(
+        'Set-Cookie',
+        'token=; Max-Age=0; HttpOnly; Path=/; SameSite=None; Secure',
+      );
       res.statusCode = 401;
       res.end();
       return;

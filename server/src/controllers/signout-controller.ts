@@ -8,8 +8,10 @@ export async function signOutController(
   try {
     getUserFromToken(req);
 
-    res.setHeader('Set-Cookie', 'token=; Max-Age=0; HttpOnly; Path=/');
-
+    res.setHeader(
+      'Set-Cookie',
+      'token=; Max-Age=0; HttpOnly; Path=/; SameSite=None; Secure',
+    );
     res.statusCode = 200;
     res.end();
   } catch (err) {
