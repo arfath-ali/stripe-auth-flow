@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 export async function sendVerificationEmail(email: string, otp: string) {
   try {
     await transporter.sendMail({
-      from: `Stripe <${process.env.EMAIL_USER}>`,
+      from: `Stripe <${process.env.EMAIL_FROM}>`,
       to: email,
       subject: 'Verify your Stripe account',
       html: `
