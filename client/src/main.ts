@@ -3,12 +3,18 @@ import { navigate } from './router/navigate.js';
 import { handleGoogleAuth } from './ui/form/google-auth.ui.js';
 import { handleSignin } from './ui/form/signin.ui.js';
 import { handleSignUp } from './ui/form/signup.ui.js';
-  
+
 function initApp(): void {
   handleGoogleAuth();
   initLinkInterceptor();
   window.addEventListener('popstate', navigate);
+
   navigate();
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+      navigate();
+    }
+  });
   handleSignin();
   handleSignUp();
 }

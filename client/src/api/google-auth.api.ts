@@ -9,5 +9,6 @@ export async function googleAuthAPI(mode: 'signin' | 'delete') {
     },
   );
   const url = await res.json();
+
   window.location.href = url;
 }

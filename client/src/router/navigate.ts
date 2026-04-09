@@ -29,6 +29,9 @@ import { handleSignOut } from '../ui/form/signout.ui.js';
 import { getElement } from '../utils/dom.utils.js';
 
 export async function navigate(): Promise<void> {
+  const appContainer = document.querySelector('.site-body');
+  if (appContainer) appContainer.innerHTML = '';
+
   resetAuthState();
   resetProfile();
   resetDeleteModal();
