@@ -1,6 +1,17 @@
 import { BrevoClient } from '@getbrevo/brevo';
 import 'dotenv/config';
 
+console.log('Checking API Key setup...');
+if (!process.env.BREVO_API_KEY) {
+  console.error('❌ ERROR: BREVO_API_KEY is undefined in process.env!');
+} else {
+  console.log(
+    '✅ BREVO_API_KEY found (Length:',
+    process.env.BREVO_API_KEY.length,
+    ')',
+  );
+}
+
 const brevo = new BrevoClient({
   apiKey: process.env.BREVO_API_KEY as string,
 });
