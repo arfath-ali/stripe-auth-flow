@@ -1,23 +1,17 @@
-import nodemailer from 'nodemailer';
+import { BrevoClient } from '@getbrevo/brevo';
 import 'dotenv/config';
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-} as nodemailer.TransportOptions);
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY as string,
+});
 
 export async function sendVerificationEmail(email: string, otp: string) {
   try {
-    await transporter.sendMail({
-      from: `Stripe <${process.env.EMAIL_FROM}>`,
-      to: email,
+    await brevo.transactionalEmails.sendTransacEmail({
       subject: 'Verify your Stripe account',
-      html: `
+      sender: { name: 'Stripe', email: process.env.EMAIL_FROM },
+      to: [{ email: email }],
+      htmlContent: `
       <div style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 500; line-height: 1.5; max-width: 600px; margin: 0 auto;">
         
         <h2 style="font-size: 26px; font-weight: 700; line-height: 1.25; letter-spacing: -0.48px; color: #6a4ff7;">
@@ -61,11 +55,11 @@ export async function sendVerificationEmail(email: string, otp: string) {
 
 export async function sendResetPasswordEmail(email: string, resetLink: string) {
   try {
-    await transporter.sendMail({
-      from: `Stripe <${process.env.EMAIL_FROM}>`,
-      to: email,
-      subject: 'Reset you Stripe password',
-      html: `
+    await brevo.transactionalEmails.sendTransacEmail({
+      subject: 'Reset your Stripe password',
+      sender: { name: 'Stripe', email: process.env.EMAIL_FROM },
+      to: [{ email: email }],
+      htmlContent: `
      <div style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 500; line-height: 1.5; max-width: 600px; margin: 0 auto;">
         <h2 style="font-size: 26px; font-weight: 700; line-height: 1.25; letter-spacing: -0.48px; color: #6a4ff7;">stripe</h2>
         
@@ -96,11 +90,11 @@ export async function sendResetPasswordEmail(email: string, resetLink: string) {
 
 export async function sendNoAccountEmail(email: string) {
   try {
-    await transporter.sendMail({
-      from: `Stripe <${process.env.EMAIL_FROM}>`,
-      to: email,
+    await brevo.transactionalEmails.sendTransacEmail({
       subject: 'Password reset request for Stripe',
-      html: `
+      sender: { name: 'Stripe', email: process.env.EMAIL_FROM },
+      to: [{ email: email }],
+      htmlContent: `
       <div style="font-family: Arial, sans-serif; font-size: 16px; font-weight: 500; line-height: 1.5; max-width: 600px; margin: 0 auto;">
         <h2 style="font-size: 26px; font-weight: 700; line-height: 1.25; letter-spacing: -0.48px; color: #6a4ff7;">stripe</h2>
         
@@ -130,14 +124,3 @@ export async function sendNoAccountEmail(email: string) {
     throw err;
   }
 }
-
-transporter.verify(function (error, success) {
-  if (error) {
-    console.log(
-      '❌ CONNECTION ERROR: Your EMAIL_USER or EMAIL_PASS is likely wrong.',
-    );
-    console.log(error);
-  } else {
-    console.log('🚀 SUCCESS: Your server is connected and ready to send!');
-  }
-});
