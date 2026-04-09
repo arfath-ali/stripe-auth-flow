@@ -81,7 +81,7 @@ export function initDeleteAccount(user: userData): void {
       if (history.state?.view === 'modal-flow') {
         setModalView('modal');
       } else {
-        if (window.appUser) {
+        if (!window.appUser) {
           window.location.replace('/signin');
           return;
         } else {
