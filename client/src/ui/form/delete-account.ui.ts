@@ -1,5 +1,6 @@
 import { deleteAccountAPI } from '../../api/delete-account.api.js';
 import { initDeleteAccount } from '../../features/auth/delete-account.js';
+import { navigate } from '../../router/navigate.js';
 import { getElement } from '../../utils/dom.utils.js';
 
 let deleteAccAbortListener: AbortController | null = null;
@@ -77,7 +78,8 @@ export function handleDeleteAccount() {
       sessionStorage.clear();
       overlay.classList.remove('active');
       setTimeout(() => {
-        window.location.replace('/signin?message=deleted');
+        history.replaceState({}, '', '/signin?message=deleted');
+        navigate();
       }, 600);
     }
   });
