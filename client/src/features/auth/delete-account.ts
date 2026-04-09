@@ -33,8 +33,6 @@ const cancelBtns = getElements<HTMLButtonElement>(
   '.dashboard__btn--modal-cancel',
 );
 
-let currentModalView: DeleteAccountModal | null = null;
-
 export function initDeleteAccount(user: userData | null): void {
   deleteAccountController?.abort();
   deleteAccountController = new AbortController();
@@ -76,19 +74,7 @@ export function initDeleteAccount(user: userData | null): void {
     );
   });
 
-  window.addEventListener(
-    'popstate',
-    () => {
-      navigate();
-      if (history.state?.view === 'modal-flow') {
-        setModalView('modal');
-      } else {
-        resetDeleteModal();
-        currentModalView = null;
-      }
-    },
-    { signal: deleteAccountController.signal },
-  );
+
 }
 
 export function resetDeleteModal() {
@@ -101,8 +87,6 @@ export function resetDeleteModal() {
 }
 
 function setModalView(view: DeleteAccountModal) {
-  currentModalView = view;
-
   dashboardModalOverlay.classList.remove('hidden');
 
   if (view === 'modal') {
