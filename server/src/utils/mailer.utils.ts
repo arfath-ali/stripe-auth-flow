@@ -1,12 +1,18 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import 'dotenv/config';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 export async function sendVerificationEmail(email: string, otp: string) {
   try {
-    await resend.emails.send({
-      from: 'onboarding@resend.dev',
+    await transporter.sendMail({
+      from: `Stripe <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Verify your Stripe account',
       html: `
@@ -53,8 +59,8 @@ export async function sendVerificationEmail(email: string, otp: string) {
 
 export async function sendResetPasswordEmail(email: string, resetLink: string) {
   try {
-    await resend.emails.send({
-      from: 'onboarding@resend.dev',
+    await transporter.sendMail({
+      from: `Stripe <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Reset you Stripe password',
       html: `
@@ -88,8 +94,8 @@ export async function sendResetPasswordEmail(email: string, resetLink: string) {
 
 export async function sendNoAccountEmail(email: string) {
   try {
-    await resend.emails.send({
-      from: 'onboarding@resend.dev',
+    await transporter.sendMail({
+      from: `Stripe <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Password reset request for Stripe',
       html: `
