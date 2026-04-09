@@ -1,4 +1,5 @@
 import { deleteAccountAPI } from '../../api/delete-account.api.js';
+import { initDeleteAccount } from '../../features/auth/delete-account.js';
 import { getElement } from '../../utils/dom.utils.js';
 
 let deleteAccAbortListener: AbortController | null = null;
@@ -74,6 +75,7 @@ export function handleDeleteAccount() {
     } else {
       delete (window as any).appUser;
       sessionStorage.clear();
+      initDeleteAccount(window.appUser);
       overlay.classList.remove('active');
       setTimeout(() => {
         window.location.replace('/signin?message=deleted');

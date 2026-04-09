@@ -34,11 +34,11 @@ const cancelBtns = getElements<HTMLButtonElement>(
 
 let currentModalView: DeleteAccountModal | null = null;
 
-export function initDeleteAccount(user: userData): void {
+export function initDeleteAccount(user: userData | null): void {
   deleteAccountController?.abort();
   deleteAccountController = new AbortController();
 
-  if (user.google_id) {
+  if (user?.google_id) {
     dashboardDivider.classList.remove('hidden');
     googleAuthBtn.classList.remove('hidden');
   } else {
@@ -81,7 +81,7 @@ export function initDeleteAccount(user: userData): void {
       if (history.state?.view === 'modal-flow') {
         setModalView('modal');
       } else {
-        if (!window.appUser) {
+        if (!user) {
           window.location.replace('/signin');
           return;
         } else {
