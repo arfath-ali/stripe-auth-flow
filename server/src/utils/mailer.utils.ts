@@ -1,8 +1,8 @@
 import dns from 'node:dns';
+dns.setDefaultResultOrder('ipv4first');
+
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
-
-dns.setDefaultResultOrder('ipv4first');
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -15,6 +15,9 @@ const transporter = nodemailer.createTransport({
   family: 4,
   connectionTimeout: 30000,
   greetingTimeout: 30000,
+  tls: {
+    rejectUnauthorized: false,
+  },
 } as nodemailer.TransportOptions);
 
 export async function sendVerificationEmail(email: string, otp: string) {
