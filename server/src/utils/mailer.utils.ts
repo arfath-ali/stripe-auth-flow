@@ -1,6 +1,13 @@
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
 
+console.log('DEBUG: Checking credentials...');
+console.log('EMAIL_USER exists:', !!process.env.EMAIL_USER);
+console.log(
+  'EMAIL_PASS length:',
+  process.env.EMAIL_PASS?.trim().replace(/\s+/g, '').length,
+);
+
 const transporter = nodemailer.createTransport({
   host: '74.125.133.108',
   port: 587,
