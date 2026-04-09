@@ -3,6 +3,7 @@ import 'dotenv/config';
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
+  host: 'smtp.gmail.com',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -128,3 +129,14 @@ export async function sendNoAccountEmail(email: string) {
     throw err;
   }
 }
+
+transporter.verify(function (error, success) {
+  if (error) {
+    console.log(
+      '❌ CONNECTION ERROR: Your EMAIL_USER or EMAIL_PASS is likely wrong.',
+    );
+    console.log(error);
+  } else {
+    console.log('🚀 SUCCESS: Your server is connected and ready to send!');
+  }
+});
