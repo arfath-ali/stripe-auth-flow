@@ -51,6 +51,8 @@ export async function navigate(): Promise<void> {
   const isNestedRoute = route.includes('/');
   const params = new URLSearchParams(window.location.search);
 
+  console.log('route: ', route);
+
   if (!validStates.includes(route) || isNestedRoute) {
     setAppState('error');
     return;

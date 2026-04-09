@@ -40,7 +40,6 @@ export async function handleSignin() {
       statusMessage.classList.remove('hidden');
 
       history.replaceState({}, '', window.location.pathname);
-      navigate();
 
       requestAnimationFrame(() => {
         statusMessage.classList.add('visible');
@@ -50,6 +49,7 @@ export async function handleSignin() {
 
         setTimeout(() => {
           statusMessage.classList.add('hidden');
+          navigate();
         }, 500);
       }, 5000);
     }
