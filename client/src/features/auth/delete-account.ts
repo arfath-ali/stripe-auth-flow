@@ -2,6 +2,7 @@ import { getElement, getElements } from '../../utils/dom.utils.js';
 import { resetModalState } from './reset-modal.js';
 import { type DeleteAccountModal } from '../../types/account-deletion.types.js';
 import type { userData } from '../../types/user-data.types.js';
+import { navigate } from '../../router/navigate.js';
 
 let deleteAccountController: AbortController | null = null;
 
@@ -78,16 +79,12 @@ export function initDeleteAccount(user: userData | null): void {
   window.addEventListener(
     'popstate',
     () => {
+      navigate();
       if (history.state?.view === 'modal-flow') {
         setModalView('modal');
       } else {
-        if (!user) {
-          window.location.replace('/signin');
-          return;
-        } else {
-          resetDeleteModal();
-          currentModalView = null;
-        }
+        resetDeleteModal();
+        currentModalView = null;
       }
     },
     { signal: deleteAccountController.signal },

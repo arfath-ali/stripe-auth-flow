@@ -75,7 +75,6 @@ export function handleDeleteAccount() {
     } else {
       delete (window as any).appUser;
       sessionStorage.clear();
-      initDeleteAccount(window.appUser);
       overlay.classList.remove('active');
       setTimeout(() => {
         window.location.replace('/signin?message=deleted');
