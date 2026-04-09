@@ -39,7 +39,8 @@ export async function handleSignin() {
       statusText.textContent = text;
       statusMessage.classList.remove('hidden');
 
-      window.history.replaceState({}, '', window.location.pathname);
+      history.replaceState({}, '', window.location.pathname);
+      navigate();
 
       requestAnimationFrame(() => {
         statusMessage.classList.add('visible');

@@ -1,4 +1,5 @@
 import { signOutAPI } from '../../api/signout.api.js';
+import { navigate } from '../../router/navigate.js';
 import { getElement } from '../../utils/dom.utils.js';
 
 let signOutAbortListener: AbortController | null = null;
@@ -40,7 +41,8 @@ export function handleSignOut() {
       delete (window as any).appUser;
       sessionStorage.clear();
       setTimeout(() => {
-        window.location.replace('/signin?message=signout');
+        history.replaceState({}, '', '/signin?message=signout');
+        navigate();
         setLoadingState(false);
       }, 600);
     },

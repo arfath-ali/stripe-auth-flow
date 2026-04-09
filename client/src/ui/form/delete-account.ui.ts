@@ -80,6 +80,7 @@ export function handleDeleteAccount() {
       setTimeout(() => {
         history.replaceState({}, '', '/signin?message=deleted');
         navigate();
+        setLoadingState(false);
       }, 600);
     }
   });

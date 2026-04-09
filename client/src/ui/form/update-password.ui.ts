@@ -129,8 +129,8 @@ export async function handleUpdatePassword() {
       } else {
         const data = await response.json();
         sessionStorage.setItem('email', data.email);
-        history.replaceState({}, '', '/reset?status=success');
         delete (window as any).appUser;
+        history.replaceState({}, '', '/reset?status=success');
         navigate();
       }
     },
