@@ -74,7 +74,17 @@ export function initDeleteAccount(user: userData | null): void {
     );
   });
 
-
+  window.addEventListener(
+    'popstate',
+    () => {
+      if (history.state?.view === 'modal-flow') {
+        setModalView('modal');
+      } else {
+        resetDeleteModal();
+      }
+    },
+    { signal: deleteAccountController.signal },
+  );
 }
 
 export function resetDeleteModal() {
