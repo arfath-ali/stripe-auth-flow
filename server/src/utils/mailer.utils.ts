@@ -1,26 +1,13 @@
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
 
-console.log('DEBUG: Checking credentials...');
-console.log('EMAIL_USER exists:', !!process.env.EMAIL_USER);
-console.log(
-  'EMAIL_PASS length:',
-  process.env.EMAIL_PASSWORD?.trim().replace(/\s+/g, '').length,
-);
-
 const transporter = nodemailer.createTransport({
-  host: '74.125.133.108',
-  port: 2525,
+  host: 'smtp-relay.brevo.com',
+  port: 587,
   secure: false,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD?.trim().replace(/\s+/g, ''),
-  },
-  family: 4,
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  tls: {
-    rejectUnauthorized: false,
+    pass: process.env.EMAIL_PASS,
   },
 } as nodemailer.TransportOptions);
 
