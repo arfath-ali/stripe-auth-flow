@@ -62,7 +62,7 @@ export async function sendVerificationEmail(email: string, otp: string) {
 export async function sendResetPasswordEmail(email: string, resetLink: string) {
   try {
     await transporter.sendMail({
-      from: `Stripe <${process.env.EMAIL_USER}>`,
+      from: `Stripe <${process.env.EMAIL_FROM}>`,
       to: email,
       subject: 'Reset you Stripe password',
       html: `
@@ -97,7 +97,7 @@ export async function sendResetPasswordEmail(email: string, resetLink: string) {
 export async function sendNoAccountEmail(email: string) {
   try {
     await transporter.sendMail({
-      from: `Stripe <${process.env.EMAIL_USER}>`,
+      from: `Stripe <${process.env.EMAIL_FROM}>`,
       to: email,
       subject: 'Password reset request for Stripe',
       html: `
