@@ -29,9 +29,6 @@ import { handleSignOut } from '../ui/form/signout.ui.js';
 import { getElement } from '../utils/dom.utils.js';
 
 export async function navigate(): Promise<void> {
-  const appContainer = document.querySelector('.site-body');
-  if (appContainer) appContainer.innerHTML = '';
-
   resetAuthState();
   resetProfile();
   resetDeleteModal();
@@ -114,6 +111,8 @@ export async function navigate(): Promise<void> {
 
     const response = await verifyAuthAPI();
     if (!response?.ok) {
+      const appContainer = document.querySelector('.site-body');
+      if (appContainer) appContainer.innerHTML = '';
       window.location.replace('/signin');
       delete (window as any).appUser;
       sessionStorage.clear();
